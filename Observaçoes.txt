@@ -1,0 +1,2 @@
+Tive que modificar todo o leiaute na mão. O banco de dados Varchar não funciona no android, tive que alterar pra Texto>
+a palavra interface contida na tabela é reconhecida como palavra chave em Kotlin e não pode ser usada tive que alterar tbm.
