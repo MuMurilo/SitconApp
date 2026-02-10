@@ -1,8 +1,11 @@
 package com.univesp.sitcon
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.univesp.sitcon.data.AppDatabase
 import kotlinx.coroutines.launch
@@ -12,66 +15,63 @@ class AmvDetalheActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_amv_detalhe)
 
-        val txtTitulo = findViewById<TextView>(R.id.txtTituloDetalhe)
-        val txtDados = findViewById<TextView>(R.id.txtDadosCompletos)
+        val idAmv = intent.getIntExtra("ID_AMV_SELECIONADO", -1)
+        val txtTitulo = findViewById<TextView>(R.id.txtTituloAmvDetalhe)
+        val container = findViewById<LinearLayout>(R.id.containerAmvCards)
 
-        val idRecebido = intent.getIntExtra("ID_AMV_SELECIONADO", -1)
+        txtTitulo.text = "AMV #$idAmv"
 
-        if (idRecebido != -1) {
-            txtTitulo.text = "AMV #$idRecebido - Relatório Geral"
+        lifecycleScope.launch {
+            val db = AppDatabase.getDatabase(applicationContext)
+            val listaFuncoes = db.dao().getAmvFunctions(idAmv)
 
-            lifecycleScope.launch {
-                val db = AppDatabase.getDatabase(applicationContext)
-                val listaDeFuncoes = db.dao().getAmvFunctions(idRecebido)
+            // Limpa views antigas se houver
+            container.removeAllViews()
 
-                val relatorio = StringBuilder()
+            // O Título "Lista de AMVs" no XML original é fixo, mas aqui mudamos para o Detalhe
+            // infla um cartão para cada função encontrada no banco
+            val inflater = LayoutInflater.from(this@AmvDetalheActivity)
 
-                for (amv in listaDeFuncoes) {
-                    // Cabeçalho da Função
-                    relatorio.append("\n================================\n")
-                    relatorio.append("   FUNÇÃO: ${amv.tipoFuncao}   \n")
-                    relatorio.append("================================\n")
+            for (amv in listaFuncoes) {
+                // 1. Infla o layout do cartão
+                val cardView = inflater.inflate(R.layout.item_amv_detail_card, container, false)
 
-                    fun adicionar(rotulo: String, valor: String?) {
-                        if (!valor.isNullOrBlank()) {
-                            // Agora o formato fica "Locação 1: valor"
-                            relatorio.append("$rotulo: $valor\n")
-                        }
-                    }
+                // 2. Referencia os textos do cartão
+                val txtHeader = cardView.findViewById<TextView>(R.id.txtHeaderCard)
+                val txtBody = cardView.findViewById<TextView>(R.id.txtBodyCard)
 
-                    // --- MUDANÇA AQUI: Trocamos os nomes dos rótulos ---
+                // 3. Define a Cor e Título baseado no Tipo (Lógica do HTML)
+                val tipo = amv.tipoFuncao ?: "DESCONHECIDO"
+                txtHeader.text = "Tipo Função: $tipo"
 
-                    adicionar("Torre", amv.tower)
-                    adicionar("Interface", amv.interface_)
-
-                    adicionar("Locação 1", amv.L1)
-                    adicionar("Locação 2", amv.L2)
-                    adicionar("Locação 3", amv.L3)
-                    adicionar("Locação 4", amv.L4)
-                    adicionar("Locação 5", amv.L5)
-                    adicionar("Locação 6", amv.L6)
-                    adicionar("Locação 7", amv.L7)
-                    // L8 não existe no seu banco
-                    adicionar("Locação 9", amv.L9)
-                    adicionar("Locação 10", amv.L10)
-                    // L11, L12, L13 não existem
-                    adicionar("Locação 14", amv.L14)
-                    adicionar("Locação 15", amv.L15)
-                    adicionar("Locação 16", amv.L16)
-                    adicionar("Locação 17", amv.L17)
-                    adicionar("Locação 18", amv.L18)
-                    // L19 não existe
-                    adicionar("Locação 20", amv.L20)
-                    adicionar("Locação 21", amv.L21)
-                    adicionar("Locação 22", amv.L22)
-                    adicionar("Locação 23", amv.L23)
-
-                    relatorio.append("\n")
+                if (tipo.contains("Normal", ignoreCase = true) || tipo.contains("Reverso", ignoreCase = true)) {
+                    // Se for Normal ou Reverso (Comando), Azul (Primary)
+                    txtHeader.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.sitcon_primary))
+                } else {
+                    // Outros (Controle, etc), Verde (Success)
+                    txtHeader.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.sitcon_success))
                 }
-                txtDados.text = relatorio.toString()
+
+                // 4. Monta os dados
+                val sb = StringBuilder()
+                if (!amv.tower.isNullOrBlank()) sb.append("Torre: ${amv.tower}\n")
+                if (!amv.interface_.isNullOrBlank()) sb.append("Interface: ${amv.interface_}\n")
+
+                val locs = listOfNotNull(
+                    amv.L1, amv.L2, amv.L3, amv.L4, amv.L5, amv.L6, amv.L7,
+                    amv.L9, amv.L10, amv.L14, amv.L15, amv.L16, amv.L17,
+                    amv.L18, amv.L20, amv.L21, amv.L22, amv.L23
+                ).filter { it.isNotBlank() }
+
+                if (locs.isNotEmpty()) {
+                    sb.append("\nLocações: ${locs.joinToString(", ")}")
+                }
+
+                txtBody.text = sb.toString()
+
+                // 5. Adiciona o cartão na tela
+                container.addView(cardView)
             }
-        } else {
-            txtDados.text = "Erro ao carregar ID."
         }
     }
 }
