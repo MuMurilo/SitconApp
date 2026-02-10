@@ -2,6 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="fundocorpo">#f8f9fa</color>
-    <color name="bordabotao">#0d6efd</color>
+
+    <color name="sitcon_primary">#0d6efd</color>
+    <color name="sitcon_danger">#dc3545</color>
+    <color name="sitcon_warning">#ffc107</color>
+    <color name="sitcon_background">#f8f9fa</color>
+    <color name="text_primary">#0d6efd</color>
+    <color name="text_dark">#212529</color>
 </resources>

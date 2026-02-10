@@ -7,25 +7,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-// Agora recebe List<Int> (Lista de Números)
 class AmvAdapter(private val listaIds: List<Int>) : RecyclerView.Adapter<AmvAdapter.AmvViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AmvViewHolder {
+        // MUDANÇA: Usando item_amv_grid.xml
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_amv, parent, false)
+            .inflate(R.layout.item_amv_grid, parent, false)
         return AmvViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AmvViewHolder, position: Int) {
-        val idAtual = listaIds[position] // Ex: 7
+        val idAtual = listaIds[position]
 
-        // Mostra "AMV #7"
-        holder.txtId.text = "AMV #$idAtual"
+        holder.txtId.text = "$idAtual" // O layout já tem "AMV" se você quiser, ou pode por "AMV #$idAtual"
 
-        // Esconde o texto da função na lista (já que o botão 7 guarda várias funções dentro)
-        holder.txtFuncao.visibility = View.GONE
-
-        // Ao clicar, manda o NÚMERO 7 para a próxima tela
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, AmvDetalheActivity::class.java)
             intent.putExtra("ID_AMV_SELECIONADO", idAtual)
@@ -36,7 +31,7 @@ class AmvAdapter(private val listaIds: List<Int>) : RecyclerView.Adapter<AmvAdap
     override fun getItemCount(): Int = listaIds.size
 
     class AmvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtId: TextView = itemView.findViewById(R.id.txtIdAmv)
-        val txtFuncao: TextView = itemView.findViewById(R.id.txtFuncao)
+        // Certifique-se de que o ID bate com o XML novo (txtIdAmvGrid)
+        val txtId: TextView = itemView.findViewById(R.id.txtIdAmvGrid)
     }
 }

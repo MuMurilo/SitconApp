@@ -25,6 +25,12 @@
         <activity android:name=".AmvDetalheActivity" />
         <activity android:name=".SinaisActivity" />
         <activity android:name=".SinaisDetalheActivity" />
+        <activity
+            android:name=".CdvActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CdvDetalheActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

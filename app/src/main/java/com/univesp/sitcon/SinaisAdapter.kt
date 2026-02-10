@@ -10,16 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 class SinaisAdapter(private val listaIds: List<Int>) : RecyclerView.Adapter<SinaisAdapter.SinaisViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SinaisViewHolder {
+        // MUDANÇA: Agora usamos o layout de GRID que criamos acima
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_amv, parent, false) // Reutilizando o layout de item
+            .inflate(R.layout.item_sinal_grid, parent, false)
         return SinaisViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: SinaisViewHolder, position: Int) {
         val idAtual = listaIds[position]
 
-        holder.txtId.text = "Sinal #$idAtual"
-        holder.txtFuncao.visibility = View.GONE
+        holder.txtId.text = "$idAtual" // Exibe apenas o número, o layout já tem o texto "Sinal"
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, SinaisDetalheActivity::class.java)
@@ -31,7 +31,7 @@ class SinaisAdapter(private val listaIds: List<Int>) : RecyclerView.Adapter<Sina
     override fun getItemCount(): Int = listaIds.size
 
     class SinaisViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtId: TextView = itemView.findViewById(R.id.txtIdAmv)
-        val txtFuncao: TextView = itemView.findViewById(R.id.txtFuncao)
+        // Certifique-se que o ID no XML item_sinal_grid é txtIdSinal
+        val txtId: TextView = itemView.findViewById(R.id.txtIdSinal)
     }
 }

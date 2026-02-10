@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo"
-    tools:context=".AmvActivity">
+    tools:context=".CdvActivity">
 
     <TextView
-        android:id="@+id/txtTituloLista"
+        android:id="@+id/txtTituloListaCdv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Lista de AMVs"
+        android:text="Circuitos de Via"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -21,13 +21,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAmv"
+        android:id="@+id/recyclerViewCdv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTituloLista" />
+        app:layout_constraintTop_toBottomOf="@id/txtTituloListaCdv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
