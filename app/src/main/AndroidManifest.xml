@@ -23,6 +23,8 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".AmvActivity" />
         <activity android:name=".AmvDetalheActivity" />
+        <activity android:name=".SinaisActivity" />
+        <activity android:name=".SinaisDetalheActivity" />
     </application>
 
 </manifest>

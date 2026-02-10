@@ -6,25 +6,27 @@ import androidx.room.Query
 @Dao
 interface SitconDao {
 
-    // --- LOGIN (Mantenha este) ---
     @Query("SELECT * FROM usuarios WHERE login = :login AND senha = :senha")
     suspend fun checkLogin(login: String, senha: String): Usuario?
 
-    // --- NOVAS FUNÇÕES DO AMV (Adicione estas duas) ---
-
-    // 1. Traz apenas os números dos AMVs (para a lista não repetir)
+    // --- MÓDULO AMV ---
     @Query("SELECT DISTINCT idAmv FROM amv ORDER BY idAmv ASC")
     suspend fun getUniqueAmvIds(): List<Int>
 
-    // 2. Traz todas as variações (NWP, NWR, etc) de UM único número de AMV
     @Query("SELECT * FROM amv WHERE idAmv = :idAmvSelecionado")
     suspend fun getAmvFunctions(idAmvSelecionado: Int): List<AMV>
 
-    // Buscar Sinais
-    @Query("SELECT * FROM sinais")
-    suspend fun getAllSinais(): List<Sinais>
+    // --- MÓDULO SINAIS (Corrigido) ---
+    @Query("SELECT DISTINCT idSinais FROM sinais ORDER BY idSinais ASC")
+    suspend fun getUniqueSinaisIds(): List<Int>
 
-    // Buscar CDVs
-    @Query("SELECT * FROM cdv")
-    suspend fun getAllCDVs(): List<CDV>
+    @Query("SELECT * FROM sinais WHERE idSinais = :idSinalSelecionado")
+    suspend fun getSinaisById(idSinalSelecionado: Int): List<Sinais>
+
+    // --- MÓDULO CDV ---
+    @Query("SELECT DISTINCT idcdv FROM cdv ORDER BY idcdv ASC")
+    suspend fun getUniqueCdvIds(): List<String>
+
+    @Query("SELECT * FROM cdv WHERE idcdv = :idCdvSelecionado")
+    suspend fun getCdvDetails(idCdvSelecionado: String): List<CDV>
 }

@@ -30,9 +30,11 @@ class MenuActivity : AppCompatActivity() {
             Toast.makeText(this, "Abrindo Circuitos de Via...", Toast.LENGTH_SHORT).show()
         }
 
-        // 4. Configurar o clique do botão Sinais
-        cardSinais.setOnClickListener {
-            Toast.makeText(this, "Abrindo Sinais...", Toast.LENGTH_SHORT).show()
+        val btnSinais = findViewById<CardView>(R.id.cardSinais) // Verifique o ID no seu XML de menu
+
+        btnSinais.setOnClickListener {
+            val intent = Intent(this, SinaisActivity::class.java)
+            startActivity(intent)
         }
     }
 }
