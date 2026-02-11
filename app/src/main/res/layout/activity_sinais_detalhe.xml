@@ -6,146 +6,43 @@
     android:layout_height="match_parent"
     android:background="@drawable/fundo">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/txtTituloSinal"
+                android:id="@+id/txtTituloSinalDetalhe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sinal #12"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_horizontal"
+                android:text="SINAL XX"
                 android:textColor="@color/sitcon_primary"
                 android:textSize="28sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="24dp"/>
+                android:textStyle="bold" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardRGE"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSinalDetalhe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/sitcon_danger"
-                        android:padding="12dp"
-                        android:text="Aspecto RGE"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:id="@+id/txtDadosRGE"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Sem dados..."
-                        android:lineSpacingExtra="6dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                android:nestedScrollingEnabled="false"/>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardRGENX"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnVoltarSinalDetalhe"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/sitcon_danger"
-                        android:padding="12dp"
-                        android:text="Aspecto RGENX"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:id="@+id/txtDadosRGENX"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Sem dados..."
-                        android:lineSpacingExtra="6dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardYGE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/sitcon_warning"
-                        android:padding="12dp"
-                        android:text="Aspecto YGE"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:id="@+id/txtDadosYGE"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Sem dados..."
-                        android:lineSpacingExtra="6dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardYGENX"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/sitcon_warning"
-                        android:padding="12dp"
-                        android:text="Aspecto YGENX"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="18sp"/>
-                    <TextView
-                        android:id="@+id/txtDadosYGENX"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Sem dados..."
-                        android:lineSpacingExtra="6dp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:text="Voltar"
+                android:backgroundTint="@android:color/darker_gray"/>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

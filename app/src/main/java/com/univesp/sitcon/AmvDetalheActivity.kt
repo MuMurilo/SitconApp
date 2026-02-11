@@ -59,14 +59,13 @@ class AmvDetalheActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val db = AppDatabase.getDatabase(applicationContext)
 
-            // Define filtros igual ao app.py
             val funcoes = if (tipoAmv == "Comando") {
                 listOf("NWR", "WR")
             } else {
                 listOf("NWP", "WP")
             }
 
-            // Chama o método com o nome correto
+            // Busca no banco (já corrigimos o TRIM no passo anterior)
             val registros = db.dao().getAmvDetailsByFunction(idAmv, funcoes)
 
             if (registros.isNotEmpty()) {
