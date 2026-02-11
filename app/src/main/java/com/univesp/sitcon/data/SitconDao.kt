@@ -13,10 +13,14 @@ interface SitconDao {
     @Query("SELECT DISTINCT idAmv FROM amv ORDER BY idAmv ASC")
     suspend fun getUniqueAmvIds(): List<Int>
 
+    // NOVO: Método filtrado para os detalhes (Correção: retorna List<AMV>)
+    @Query("SELECT * FROM amv WHERE idAmv = :id AND tipofuncao IN (:funcoes) ORDER BY tipofuncao ASC")
+    suspend fun getAmvDetailsByFunction(id: Int, funcoes: List<String>): List<AMV>
+
     @Query("SELECT * FROM amv WHERE idAmv = :idAmvSelecionado")
     suspend fun getAmvFunctions(idAmvSelecionado: Int): List<AMV>
 
-    // --- MÓDULO SINAIS (Corrigido) ---
+    // --- MÓDULO SINAIS ---
     @Query("SELECT DISTINCT idSinais FROM sinais ORDER BY idSinais ASC")
     suspend fun getUniqueSinaisIds(): List<Int>
 
