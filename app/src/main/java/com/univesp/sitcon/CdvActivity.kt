@@ -1,6 +1,7 @@
 package com.univesp.sitcon
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -14,19 +15,25 @@ class CdvActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cdv)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewCdv)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        val recycler = findViewById<RecyclerView>(R.id.recyclerCdv)
+        val btnVoltar = findViewById<Button>(R.id.btnVoltarCdv)
+
+        // Grade de 2 colunas
+        recycler.layoutManager = GridLayoutManager(this, 2)
+
+        btnVoltar.setOnClickListener { finish() }
 
         lifecycleScope.launch {
             val db = AppDatabase.getDatabase(applicationContext)
-            // Chama a função do DAO que retorna List<String>
+
+            // Busca lista de Strings (ex: "01T", "02T")
             val listaIds = db.dao().getUniqueCdvIds()
 
             if (listaIds.isNotEmpty()) {
                 val adapter = CdvAdapter(listaIds)
-                recyclerView.adapter = adapter
+                recycler.adapter = adapter
             } else {
-                Toast.makeText(this@CdvActivity, "Nenhum CDV encontrado!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@CdvActivity, "Nenhum CDV encontrado.", Toast.LENGTH_SHORT).show()
             }
         }
     }
