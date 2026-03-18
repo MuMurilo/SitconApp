@@ -10,10 +10,10 @@ interface SitconDao {
     suspend fun checkLogin(login: String, senha: String): Usuario?
 
     // --- MÓDULO AMV ---
-    @Query("SELECT DISTINCT idAmv FROM amv ORDER BY idAmv ASC")
+    // Abordagem de exclusão manual: ignorando o ID 1
+    @Query("SELECT DISTINCT idAmv FROM amv WHERE idAmv != 1 ORDER BY idAmv ASC")
     suspend fun getUniqueAmvIds(): List<Int>
 
-    // MUDANÇA AQUI: Adicionado TRIM(tipofuncao) para ignorar espaços em branco no banco
     @Query("SELECT * FROM amv WHERE idAmv = :id AND TRIM(tipofuncao) IN (:funcoes) ORDER BY tipofuncao ASC")
     suspend fun getAmvDetailsByFunction(id: Int, funcoes: List<String>): List<AMV>
 

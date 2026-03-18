@@ -1,7 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Base.Theme.SitconApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Cores principais no Modo Escuro -->
+        <item name="colorPrimary">@color/sitcon_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/sitcon_success</item>
+
+        <!-- Fundo e Superfície -->
+        <item name="android:windowBackground">@color/sitcon_background</item>
+        <item name="colorSurface">#1e1e1e</item>
+        <item name="colorOnSurface">#FFFFFF</item>
+        <item name="colorOnBackground">#FFFFFF</item>
+
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item> </style>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 
     <style name="Theme.SitconApp" parent="Base.Theme.SitconApp" />
 </resources>

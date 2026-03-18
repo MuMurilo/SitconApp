@@ -26,9 +26,6 @@ class CdvDetalheAdapter(
         // 1. Cabeçalho (Tipo)
         holder.txtHeader.text = "Tipo: ${registro.tipo}"
 
-        // Mantemos a cor Azul padrão para CDV, pois geralmente não tem lógica de cores como Sinais
-        // Se houver, podemos adicionar aqui depois.
-
         // 2. Limpa dados anteriores
         holder.containerDados.removeAllViews()
 
@@ -41,17 +38,16 @@ class CdvDetalheAdapter(
             "L5" to registro.L5,
             "L6" to registro.L6,
             "L7" to registro.L7,
-            "L8" to registro.L8, // CDV tem L8
-            "L9" to registro.L9, // CDV tem L9
+            "L8" to registro.L8,
+            "L9" to registro.L9,
             "L10" to registro.L10,
             "tower" to registro.tower,
             "interface_" to registro.interface_,
             "L14" to registro.L14,
             "L15" to registro.L15,
             "L16" to registro.L16,
-            "L17" to registro.L17, // CDV tem L17
+            "L17" to registro.L17,
             "L18" to registro.L18,
-            // CDV não tem L19 na definição da Entity que vimos anteriormente, pulamos
             "L20" to registro.L20,
             "L21" to registro.L21,
             "L22" to registro.L22,
@@ -68,7 +64,6 @@ class CdvDetalheAdapter(
                     valor
                 }
 
-                // Reutiliza o layout de linha (row_amv_key_value)
                 val rowView = LayoutInflater.from(context).inflate(R.layout.row_amv_key_value, holder.containerDados, false)
                 val txtChave = rowView.findViewById<TextView>(R.id.txtChave)
                 val txtValor = rowView.findViewById<TextView>(R.id.txtValor)
@@ -84,7 +79,7 @@ class CdvDetalheAdapter(
     override fun getItemCount(): Int = listaRegistros.size
 
     class DetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtHeader: TextView = itemView.findViewById(R.id.txtHeaderCdvCard)
+        val txtHeader: TextView = itemView.findViewById(R.id.txtHeaderCardCdv)
         val containerDados: LinearLayout = itemView.findViewById(R.id.containerDadosCdv)
     }
 }

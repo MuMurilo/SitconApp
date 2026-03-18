@@ -1,58 +1,60 @@
-package com.univesp.sitcon // <--- CONFIRA SE ESSE É O SEU PACOTE
+package com.univesp.sitcon
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.textfield.TextInputEditText
 import com.univesp.sitcon.data.AppDatabase
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // --- AQUI ESTÁ A CORREÇÃO: "Apresentando" os itens da tela para o código ---
-        val edtUsuario = findViewById<EditText>(R.id.edtUsuario)
-        val edtSenha = findViewById<EditText>(R.id.edtSenha)
+        val editUser = findViewById<TextInputEditText>(R.id.editUser)
+        val editPassword = findViewById<TextInputEditText>(R.id.editPassword)
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
-        val btnCriarConta = findViewById<Button>(R.id.btnCriarConta)
-        // --------------------------------------------------------------------------
 
-        // Configurando o botão Entrar
         btnEntrar.setOnClickListener {
-            val usuario = edtUsuario.text.toString()
-            val senha = edtSenha.text.toString()
+            val usuarioDigitado = editUser.text.toString().trim()
+            val senhaDigitada = editPassword.text.toString().trim()
 
-            if (usuario.isEmpty() || senha.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-            } else {
-                lifecycleScope.launch {
-                    val db = AppDatabase.getDatabase(applicationContext)
-                    val userEncontrado = db.dao().checkLogin(usuario, senha)
+            if (usuarioDigitado.isEmpty() || senhaDigitada.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-                    // Login mestre (admin) OU Login do Banco
-                    if (userEncontrado != null || (usuario == "admin" && senha == "admin")) {
-                        Toast.makeText(this@MainActivity, "Login aprovado!", Toast.LENGTH_SHORT).show()
+            // 1. BACKDOOR (A pedido: admin/admin sempre funciona)
+            if (usuarioDigitado == "admin" && senhaDigitada == "admin") {
+                abrirMenu()
+                return@setOnClickListener
+            }
 
-                        // Abre o Menu
-                        val intent = Intent(this@MainActivity, MenuActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this@MainActivity, "Usuário ou senha incorretos", Toast.LENGTH_SHORT).show()
-                    }
+            // 2. VALIDAÇÃO REAL (Banco de Dados)
+            lifecycleScope.launch {
+                val db = AppDatabase.getDatabase(applicationContext)
+
+                // Busca usuário no banco (tabela 'usuarios')
+                // Nota: Certifique-se que seu DAO tem o método checkLogin
+                val usuarioEncontrado = db.dao().checkLogin(usuarioDigitado, senhaDigitada)
+
+                if (usuarioEncontrado != null) {
+                    Toast.makeText(this@MainActivity, "Bem-vindo, ${usuarioEncontrado.nome}!", Toast.LENGTH_SHORT).show()
+                    abrirMenu()
+                } else {
+                    Toast.makeText(this@MainActivity, "Usuário ou senha inválidos.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+    }
 
-        // Configurando o botão Criar Conta (Deixa só um Toast por enquanto)
-        btnCriarConta.setOnClickListener {
-            Toast.makeText(this, "Funcionalidade em breve!", Toast.LENGTH_SHORT).show()
-        }
+    private fun abrirMenu() {
+        val intent = Intent(this, MenuActivity::class.java)
+        startActivity(intent)
+        finish() // Fecha a tela de login para não voltar com o botão "Voltar"
     }
 }

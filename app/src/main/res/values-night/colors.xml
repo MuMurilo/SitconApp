@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FFFFFFFF</color> <!-- Invertendo para visibilidade se usado como cor de texto fixa -->
+    <color name="white">#FF000000</color>
+
+    <color name="sitcon_primary">#6ea8fe</color> <!-- Azul mais claro para melhor contraste no escuro -->
+    <color name="sitcon_danger">#ea868f</color>  <!-- Vermelho mais suave -->
+    <color name="sitcon_warning">#ffd04b</color> <!-- Amarelo mais vibrante -->
+    <color name="sitcon_success">#75b798</color> <!-- Verde mais claro -->
+    <color name="sitcon_background">#121212</color> <!-- Fundo escuro padrão Material -->
+</resources>
